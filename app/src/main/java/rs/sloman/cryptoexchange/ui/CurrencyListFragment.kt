@@ -7,14 +7,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import rs.sloman.cryptoexchange.R
 import rs.sloman.cryptoexchange.databinding.FragmentCurrencyListBinding
+import rs.sloman.cryptoexchange.repo.Repo
 import rs.sloman.cryptoexchange.viewmodels.CryptoViewModel
+import timber.log.Timber
+import java.net.UnknownHostException
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
 
     private val viewModel: CryptoViewModel by viewModels()
+    @Inject
+    lateinit var repo: Repo
+    lateinit var disposable: Disposable
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -24,7 +36,38 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
 
         val binding = FragmentCurrencyListBinding.inflate(layoutInflater)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        disposable = Observable.interval(1,20,
+                TimeUnit.SECONDS
+        )
+                .flatMap { repo.getCryptosRx() }
+                .retryWhen {
+                    it.map { throwable ->
+                        if (throwable is UnknownHostException){
+                            Timber.d("Error")
+                            throwable
+                        }
+                        else{
+                            throw throwable
+                        }
+                    }
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { t -> Timber.d(t.message)
+                        viewModel.setCryptos(t)},
+                        { t -> Timber.d(t.message) },
+                        {}
+                )
+
 
         return binding.root
     }
+
+    override fun onPause() {
+        super.onPause()
+        disposable.dispose()
+    }
+
 }

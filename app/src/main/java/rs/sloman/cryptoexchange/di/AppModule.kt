@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import rs.sloman.cryptoexchange.Constants
 import rs.sloman.cryptoexchange.network.CryptoApi
@@ -20,6 +21,7 @@ object AppModule {
     @Provides
     fun provideCryptoApi(): CryptoApi =
             Retrofit.Builder()
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(Gson()))
                     .baseUrl(Constants.BASE_URL)
                     .build()

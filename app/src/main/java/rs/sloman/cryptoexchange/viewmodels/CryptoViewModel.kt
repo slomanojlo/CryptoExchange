@@ -12,28 +12,9 @@ import rs.sloman.cryptoexchange.repo.Repo
 
 class CryptoViewModel @ViewModelInject constructor(val repo: Repo) : ViewModel() {
 
-    private val _cryptos = MutableLiveData<CryptoResponse>()
+    var cryptos: MutableLiveData<CryptoResponse> = MutableLiveData()
 
-
-    val cryptos: LiveData<CryptoResponse>
-        get() = _cryptos
-
-    init {
-        getCryptos()
-    }
-
-    private fun getCryptos() {
-        viewModelScope.launch {
-
-            try {
-
-                val cryptoResponse = repo.getCryptos()
-                if (cryptoResponse.isSuccessful) {
-                    _cryptos.value = cryptoResponse.body()
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    fun setCryptos(cryptoResponse: CryptoResponse) {
+        cryptos.value = cryptoResponse
     }
 }
