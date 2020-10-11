@@ -9,5 +9,20 @@
         android:id="@+id/currencyListFragment"
         android:name="rs.sloman.cryptoexchange.ui.CurrencyListFragment"
         android:label="CurrencyListFragment"
-        tools:layout="@layout/fragment_currency_list"/>
+        tools:layout="@layout/fragment_currency_list">
+        <action
+            android:id="@+id/action_currencyListFragment_to_currencyDetailFragment"
+            app:destination="@id/currencyDetailFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/currencyDetailFragment"
+        android:name="rs.sloman.cryptoexchange.ui.CurrencyDetailFragment"
+        android:label="CurrencyDetailFragment"
+        tools:layout="@layout/fragment_currency_detail">
+        <argument
+            android:name="crypto"
+            app:argType="rs.sloman.cryptoexchange.model.CryptoResponse$Data" />
+    </fragment>
+
 </navigation>

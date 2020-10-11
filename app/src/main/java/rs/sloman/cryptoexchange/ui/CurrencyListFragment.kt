@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
@@ -27,9 +28,6 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
 
     private val viewModel: CryptoViewModel by viewModels()
 
-    @Inject lateinit var repo: Repo
-    lateinit var disposable: Disposable
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -40,46 +38,16 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.rwCryptos.addItemDecoration(
-                DividerItemDecoration(
-                        requireContext(),
-                        DividerItemDecoration.VERTICAL
-                )
-        )
-        binding.rwCryptos.setHasFixedSize(true)
-        binding.rwCryptos.adapter = CryptoAdapter(CryptoAdapter.OnClickListenerCrypto {})
-
-        disposable = Observable.interval(
-                1, 20, TimeUnit.SECONDS
-        )
-                .flatMap { repo.getCryptosRx() }
-                .retryWhen {
-                    it.map { throwable ->
-                        if (throwable is UnknownHostException) {
-                            Timber.d("Error")
-                            throwable
-                        } else {
-                            throw throwable
-                        }
-                    }
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { t ->
-                            Timber.d(t.message)
-                            viewModel.setCryptos(t)
-                        },
-                        { t -> Timber.d(t.message) },
-                        {}
-                )
-
+        binding.rwCryptos.apply {
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            binding.rwCryptos.setHasFixedSize(true)
+            binding.rwCryptos.adapter = CryptoAdapter(CryptoAdapter.OnClickListenerCrypto {
+                val action = CurrencyListFragmentDirections.actionCurrencyListFragmentToCurrencyDetailFragment(it)
+                findNavController().navigate(action)
+            })
+        }
 
         return binding.root
-    }
-
-    override fun onPause() {
-        super.onPause()
-        disposable.dispose()
     }
 
 }

@@ -22,22 +22,6 @@ class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
     }
 
 
-    companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<CryptoResponse.Data>() {
-            override fun areItemsTheSame(
-                    oldItem: CryptoResponse.Data,
-                    newItem: CryptoResponse.Data
-            ): Boolean = oldItem.coinInfo.id == newItem.coinInfo.id
-
-
-            override fun areContentsTheSame(
-                    oldItem: CryptoResponse.Data,
-                    newItem: CryptoResponse.Data
-            ): Boolean = oldItem == newItem
-        }
-
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder {
         return CryptoViewHolder(CryptoItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
@@ -50,8 +34,24 @@ class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
         holder.bind(crypto)
     }
 
+
+    companion object {
+        private val DiffCallback = object : DiffUtil.ItemCallback<CryptoResponse.Data>() {
+
+            override fun areItemsTheSame(
+                    oldItem: CryptoResponse.Data,
+                    newItem: CryptoResponse.Data
+            ): Boolean = oldItem.coinInfo.id == newItem.coinInfo.id
+
+            override fun areContentsTheSame(
+                    oldItem: CryptoResponse.Data,
+                    newItem: CryptoResponse.Data
+            ): Boolean = oldItem == newItem
+        }
+
+    }
+
     class OnClickListenerCrypto (val clickListnener: (crypto: CryptoResponse.Data)-> Unit) {
         fun onClick(crypto: CryptoResponse.Data) = clickListnener(crypto)
-
     }
 }
