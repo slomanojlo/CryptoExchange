@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import rs.sloman.cryptoexchange.model.CryptoResponse
 import rs.sloman.cryptoexchange.repo.Repo
 import timber.log.Timber
@@ -16,22 +17,14 @@ import java.util.concurrent.TimeUnit
 class CryptoViewModel @ViewModelInject constructor(val repo: Repo) : ViewModel() {
 
     var cryptos: MutableLiveData<CryptoResponse> = MutableLiveData()
-    private var compositeDisposable = CompositeDisposable()
-
-
-    init {
-        loadData()
-    }
-
-    fun setCryptos(cryptoResponse: CryptoResponse) {
-        cryptos.value = cryptoResponse
-    }
+    lateinit var compositeDisposable: CompositeDisposable
+    lateinit var disposable: Disposable
 
     fun loadData() {
-        val disposable = Observable.interval(
-                1, 20, TimeUnit.SECONDS
+        disposable = Observable.interval(
+                1, 5, TimeUnit.SECONDS
         )
-                .flatMap { repo.getCryptosRx() }
+                .flatMap { repo.getCryptos() }
                 .retryWhen {
                     it.map { throwable ->
                         if (throwable is UnknownHostException) {
@@ -43,20 +36,30 @@ class CryptoViewModel @ViewModelInject constructor(val repo: Repo) : ViewModel()
                     }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { disposable ->
+                    compositeDisposable = CompositeDisposable().apply {
+                        add(disposable)
+                    }
+                }
+                .doOnDispose { Timber.d("Disposed!") }
                 .subscribe(
-                        { t ->
-                            Timber.d(t.message)
-                            setCryptos(t)
+                        { d ->
+                            Timber.d(d.message)
+                            cryptos.postValue(d)
                         },
                         { t -> Timber.d(t.message) },
                         {}
                 )
-        compositeDisposable.add(disposable)
-
     }
+
+
+    fun stopLoadingData() {
+        compositeDisposable.clear()
+    }
+
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear()
+        disposable?.dispose()
     }
 }

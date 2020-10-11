@@ -39,7 +39,7 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.rwCryptos.apply {
-            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
             binding.rwCryptos.setHasFixedSize(true)
             binding.rwCryptos.adapter = CryptoAdapter(CryptoAdapter.OnClickListenerCrypto {
                 val action = CurrencyListFragmentDirections.actionCurrencyListFragmentToCurrencyDetailFragment(it)
@@ -48,6 +48,16 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadData()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopLoadingData()
     }
 
 }
