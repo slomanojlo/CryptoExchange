@@ -2,15 +2,15 @@ package rs.sloman.cryptoexchange.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import rs.sloman.cryptoexchange.databinding.CryptoItemBinding
 import rs.sloman.cryptoexchange.model.CryptoResponse
 
 
 class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
-        ListAdapter<CryptoResponse.Data, CryptoAdapter.CryptoViewHolder>(DiffCallback) {
+        PagingDataAdapter<CryptoResponse.Data, CryptoAdapter.CryptoViewHolder>(DiffCallback) {
 
 
     class CryptoViewHolder(private var binding: CryptoItemBinding) :
@@ -28,10 +28,13 @@ class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
 
     override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) {
         val crypto = getItem(position)
-        holder.itemView.setOnClickListener{
-            onClickListener.onClick(crypto)
+
+        if (crypto != null) {
+            holder.itemView.setOnClickListener {
+                onClickListener.onClick(crypto)
+            }
+            holder.bind(crypto)
         }
-        holder.bind(crypto)
     }
 
 
@@ -51,7 +54,7 @@ class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
 
     }
 
-    class OnClickListenerCrypto (val clickListnener: (crypto: CryptoResponse.Data)-> Unit) {
+    class OnClickListenerCrypto(val clickListnener: (crypto: CryptoResponse.Data) -> Unit) {
         fun onClick(crypto: CryptoResponse.Data) = clickListnener(crypto)
     }
 }

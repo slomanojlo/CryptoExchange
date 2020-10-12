@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             tools:listitem="@layout/crypto_item"
-            app:bindListData="@{viewModel.cryptos.data}"
+            app:bindListData="@{viewModel.cryptos}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:bindTextView="@{viewModel.cryptos.message}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
