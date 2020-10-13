@@ -1,10 +1,12 @@
 package rs.sloman.cryptoexchange.di
 
+import androidx.paging.PagedList
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import io.reactivex.disposables.CompositeDisposable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,4 +29,16 @@ object AppModule {
                     .build()
                     .create(CryptoApi::class.java)
 
+
+    @Singleton
+    @Provides
+    fun provideCompDisposable(): CompositeDisposable = CompositeDisposable()
+
+    @Singleton
+    @Provides
+    fun provideConfig() : PagedList.Config = PagedList.Config.Builder()
+            .setPageSize(20)
+            .setInitialLoadSizeHint(40)
+            .setEnablePlaceholders(false)
+            .build()
 }

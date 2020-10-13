@@ -2,11 +2,8 @@ package rs.sloman.cryptoexchange.adapters
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.paging.PagingData
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import rs.sloman.cryptoexchange.model.CryptoResponse
 
 
@@ -16,13 +13,8 @@ fun bindTextView(textView: TextView, string: String?) {
 }
 
 @BindingAdapter("bindListData")
-fun bindListData(recyclerView: RecyclerView, cryptos: PagingData<CryptoResponse.Data>?) {
+fun bindListData(recyclerView: RecyclerView, cryptos: PagedList<CryptoResponse.Data>?) {
     val adapter = recyclerView.adapter as CryptoAdapter
 
-    if (cryptos != null) {
-
-        GlobalScope.launch(Dispatchers.Main) {
-            adapter.submitData(cryptos)
-        }
-    }
+    adapter.submitList(cryptos)
 }

@@ -3,20 +3,21 @@ package rs.sloman.cryptoexchange.viewmodels
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import rs.sloman.cryptoexchange.di.AppModule
 import rs.sloman.cryptoexchange.model.CryptoResponse
-import rs.sloman.cryptoexchange.repo.Repo
+import rs.sloman.cryptoexchange.repo.CryptoDataSourceFactory
 
 
-class CryptoViewModel @ViewModelInject constructor(val repo: Repo) : ViewModel() {
+class CryptoViewModel @ViewModelInject constructor(cryptoDataSourceFactory: CryptoDataSourceFactory) : ViewModel() {
 
-    var cryptos: LiveData<PagingData<CryptoResponse.Data>> = repo.getCryptosPaging().cachedIn(viewModelScope)
-    lateinit var compositeDisposable: CompositeDisposable
-    lateinit var disposable: Disposable
 
+    val cryptos : LiveData<PagedList<CryptoResponse.Data>>
+    private val config : PagedList.Config = AppModule.provideConfig()
+
+    init {
+        cryptos = LivePagedListBuilder(cryptoDataSourceFactory,config).build()
+    }
 
 }

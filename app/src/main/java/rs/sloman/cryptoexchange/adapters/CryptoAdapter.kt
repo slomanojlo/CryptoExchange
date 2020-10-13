@@ -2,7 +2,7 @@ package rs.sloman.cryptoexchange.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import rs.sloman.cryptoexchange.databinding.CryptoItemBinding
@@ -10,7 +10,7 @@ import rs.sloman.cryptoexchange.model.CryptoResponse
 
 
 class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
-        PagingDataAdapter<CryptoResponse.Data, CryptoAdapter.CryptoViewHolder>(DiffCallback) {
+        PagedListAdapter<CryptoResponse.Data, CryptoAdapter.CryptoViewHolder>(DiffCallback) {
 
 
     class CryptoViewHolder(private var binding: CryptoItemBinding) :
