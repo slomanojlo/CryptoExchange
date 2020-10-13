@@ -53,26 +53,6 @@ class CryptoDataSource @Inject constructor(
     ) {
     }
 
-//    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CryptoResponse.Data> {
-//        val position = params.key ?: STARTING_PAGE_INDEX
-//
-//        return try {
-//            val response = cryptoApi.getCryptos(EUR, position, params.loadSize)
-//            val cryptos = response.data
-//
-//            LoadResult.Page(
-//                    data = cryptos,
-//                    prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
-//                    nextKey = if (cryptos.isEmpty()) null else position + 1
-//            )
-//        } catch (exception: IOException) {
-//            LoadResult.Error(exception)
-//        } catch (exception: HttpException) {
-//            LoadResult.Error(exception)
-//        }
-//
-//
-//    }
 
 
 }

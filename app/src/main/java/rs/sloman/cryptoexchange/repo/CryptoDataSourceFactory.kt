@@ -15,9 +15,6 @@ class CryptoDataSourceFactory @Inject constructor(
 ) : DataSource.Factory<Int, CryptoResponse.Data>() {
 
     override fun create(): DataSource<Int, CryptoResponse.Data> =
-            CryptoDataSource(
-                    cryptoApi,
-                    compositeDisposable
-            )
+            CryptoDataSource(cryptoApi, compositeDisposable)
 
 }

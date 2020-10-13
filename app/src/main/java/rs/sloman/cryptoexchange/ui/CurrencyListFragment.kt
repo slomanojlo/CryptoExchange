@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import rs.sloman.cryptoexchange.MainActivity
 import rs.sloman.cryptoexchange.R
 import rs.sloman.cryptoexchange.adapters.CryptoAdapter
 import rs.sloman.cryptoexchange.databinding.FragmentCurrencyListBinding
@@ -26,15 +27,25 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
             savedInstanceState: Bundle?
     ): View? {
 
+        setupActionBar()
+
         val binding = FragmentCurrencyListBinding.inflate(layoutInflater)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.rwCryptos.apply {
-            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+            addItemDecoration(
+                    DividerItemDecoration(
+                            requireContext(),
+                            DividerItemDecoration.VERTICAL
+                    )
+            )
             binding.rwCryptos.setHasFixedSize(true)
             binding.rwCryptos.adapter = CryptoAdapter(CryptoAdapter.OnClickListenerCrypto {
-                val action = CurrencyListFragmentDirections.actionCurrencyListFragmentToCurrencyDetailFragment(it)
+                val action =
+                        CurrencyListFragmentDirections.actionCurrencyListFragmentToCurrencyDetailFragment(
+                                it
+                        )
                 findNavController().navigate(action)
             })
         }
@@ -42,14 +53,13 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
         return binding.root
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        viewModel.loadData()
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        viewModel.stopLoadingData()
-//    }
+    private fun setupActionBar() {
+        (activity as MainActivity?)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowHomeEnabled(false)
+            title = getString(R.string.app_name)
+        }
+    }
+
 
 }

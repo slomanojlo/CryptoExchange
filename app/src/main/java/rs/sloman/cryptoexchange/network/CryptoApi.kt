@@ -1,5 +1,6 @@
 package rs.sloman.cryptoexchange.network
 
+import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,7 +14,7 @@ interface CryptoApi {
             @Query("tsym") toSymbol: String,
             @Query("page") page: Int,
             @Query("limit") limit: Int
-    ): Single<CryptoResponse>
+    ): Observable<CryptoResponse>
 
     @GET("data/top/totalvolfull")
     suspend fun getCryptos(

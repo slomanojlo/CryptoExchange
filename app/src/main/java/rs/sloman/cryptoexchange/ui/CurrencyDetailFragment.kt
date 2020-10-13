@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.Disposable
+import rs.sloman.cryptoexchange.MainActivity
 import rs.sloman.cryptoexchange.R
 import rs.sloman.cryptoexchange.databinding.FragmentCurrencyDetailBinding
 import rs.sloman.cryptoexchange.repo.Repo
@@ -31,6 +32,8 @@ class CurrencyDetailFragment : Fragment(R.layout.fragment_currency_detail) {
             savedInstanceState: Bundle?
     ): View? {
 
+        setupActionBar()
+
         val binding = FragmentCurrencyDetailBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -42,6 +45,14 @@ class CurrencyDetailFragment : Fragment(R.layout.fragment_currency_detail) {
 
         return binding.root
 
+    }
+
+    private fun setupActionBar() {
+        (activity as MainActivity?)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            title = args.crypto.coinInfo.name
+        }
     }
 
 }
