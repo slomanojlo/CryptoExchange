@@ -12,13 +12,27 @@ data class CryptoResponse(
 ) : Parcelable {
     @Parcelize
     data class Data(
-            @SerializedName("CoinInfo") val coinInfo: CoinInfo
+            @SerializedName("CoinInfo") val coinInfo: CoinInfo,
+            @SerializedName("DISPLAY") val display: Display
     ) : Parcelable {
         @Parcelize
         data class CoinInfo(
                 @SerializedName("Id") val id: Double,
                 @SerializedName("Name") val name: String,
-                @SerializedName("FullName") val fullName: String
+                @SerializedName("FullName") val fullName: String,
+                @SerializedName("ImageUrl") val imageUrl: String
         ) : Parcelable
+
+        @Parcelize
+        data class Display(
+                @SerializedName("EUR") val eur: Eur
+        ) : Parcelable{
+
+            @Parcelize
+            data class Eur(
+                    @SerializedName("PRICE") val price: String,
+                    @SerializedName("FROMSYMBOL") val symbol: String
+            ) : Parcelable
+        }
     }
 }

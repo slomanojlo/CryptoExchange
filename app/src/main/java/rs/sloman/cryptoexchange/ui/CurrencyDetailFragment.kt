@@ -8,23 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.disposables.Disposable
 import rs.sloman.cryptoexchange.MainActivity
 import rs.sloman.cryptoexchange.R
 import rs.sloman.cryptoexchange.databinding.FragmentCurrencyDetailBinding
-import rs.sloman.cryptoexchange.repo.Repo
 import rs.sloman.cryptoexchange.viewmodels.CryptoViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CurrencyDetailFragment : Fragment(R.layout.fragment_currency_detail) {
 
     private val viewModel: CryptoViewModel by viewModels()
     private val args by navArgs<CurrencyDetailFragmentArgs>()
-
-    @Inject
-    lateinit var repo: Repo
-    lateinit var disposable: Disposable
 
     override fun onCreateView(
             inflater: LayoutInflater,

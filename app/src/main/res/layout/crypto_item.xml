@@ -30,10 +30,48 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:bindTextView="@{crypto.coinInfo.name}"
+                app:bindTextView="@{crypto.coinInfo.fullName}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Name" />
+
+            <TextView
+                android:id="@+id/twSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:bindTextView="@{crypto.display.eur.symbol}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/twName"
+                tools:text="Symbol" />
+
+            <TextView
+                android:id="@+id/twValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:bindTextView="@{crypto.display.eur.price}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/twSymbol"
+                tools:text="Value" />
+
+            <ImageView
+                android:id="@+id/twLogo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:bindImage="@{crypto.coinInfo.imageUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_launcher_background" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
