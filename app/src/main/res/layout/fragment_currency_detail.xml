@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="rs.sloman.cryptoexchange.viewmodels.CryptoViewModel" />
+            type="rs.sloman.cryptoexchange.viewmodels.DetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,15 +14,93 @@
         android:layout_height="match_parent"
         android:padding="8dp">
 
+        <ImageView
+            android:id="@+id/twLogo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="fitXY"
+            app:bindImage="@{viewModel.crypto.data.coinInfo.imageUrl}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_launcher_background" />
+
         <TextView
             android:id="@+id/twCurrencyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Currency"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="12dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:bindTextView="@{viewModel.crypto.data.coinInfo.fullName}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Currency" />
+
+        <TextView
+            android:id="@+id/twOpenDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:bindOpenDay="@{viewModel.crypto.data.aggregatedData.openDay}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twMedian"
+            tools:text="Open Day" />
+
+        <TextView
+            android:id="@+id/twHighDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:bindHighDay="@{viewModel.crypto.data.aggregatedData.highDay}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twOpenDay"
+            tools:text="High Day" />
+
+        <TextView
+            android:id="@+id/twLowDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:bindLowDay="@{viewModel.crypto.data.aggregatedData.lowDay}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twHighDay"
+            tools:text="Low Day" />
+
+        <TextView
+            android:id="@+id/twMarketCap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:bindMktCap="@{viewModel.crypto.data.aggregatedData.marketCap}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twLowDay"
+            tools:text="Market Cap" />
+
+        <TextView
+            android:id="@+id/twChangePerecent24h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:bindPercent="@{viewModel.crypto.data.aggregatedData.changePercent24h}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twMarketCap"
+            tools:text="Change Percent 24h" />
+
+        <TextView
+            android:id="@+id/twMedian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:bindMedian="@{viewModel.crypto.data.aggregatedData.median}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twLogo"
+            tools:text="Median" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

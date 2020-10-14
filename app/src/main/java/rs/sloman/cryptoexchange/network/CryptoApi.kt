@@ -1,10 +1,10 @@
 package rs.sloman.cryptoexchange.network
 
 import io.reactivex.Observable
-import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 import rs.sloman.cryptoexchange.model.CryptoResponse
+import rs.sloman.cryptoexchange.model.PairResponse
 
 
 interface CryptoApi {
@@ -16,10 +16,10 @@ interface CryptoApi {
             @Query("limit") limit: Int
     ): Observable<CryptoResponse>
 
-    @GET("data/top/totalvolfull")
-    suspend fun getCryptos(
-            @Query("tsym") toSymbol: String,
-            @Query("page") page: Int,
-            @Query("limit") limit: Int
-    ): CryptoResponse
+    //https://min-api.cryptocompare.com/data/top/exchanges/full?fsym=BTC&tsym=eur
+    @GET("data/top/exchanges/full")
+    fun getCryptoPair(
+            @Query("fsym") fromSymbol: String,
+            @Query("tsym") toSymbol: String
+    ): Observable<PairResponse>
 }

@@ -20,6 +20,36 @@ fun bindTextView(textView: TextView, string: String?) {
     textView.text = string
 }
 
+@BindingAdapter("bindMedian")
+fun bindMedian(textView: TextView, double: Double) {
+    textView.text = if(double != 0.0) "Median: $double" else ""
+}
+
+@BindingAdapter("bindOpenDay")
+fun bindOpenDay(textView: TextView, double: Double) {
+    textView.text = if(double != 0.0) "Open day: $double" else ""
+}
+
+@BindingAdapter("bindHighDay")
+fun bindHighDay(textView: TextView, double: Double) {
+    textView.text = if(double != 0.0) "High Day: $double" else ""
+}
+
+@BindingAdapter("bindLowDay")
+fun bindLowDay(textView: TextView, double: Double) {
+    textView.text = if(double != 0.0) "Low day: $double" else ""
+}
+
+@BindingAdapter("bindMktCap")
+fun bindMktCap(textView: TextView, double: Double) {
+    textView.text = if(double != 0.0) "Market cap: $double" else ""
+}
+
+@BindingAdapter("bindPercent")
+fun bindPercent(textView: TextView, double: Double) {
+    textView.text = if(double != 0.0) "Change in %: $double%" else ""
+}
+
 @BindingAdapter("bindListData")
 fun bindListData(recyclerView: RecyclerView, cryptos: PagedList<CryptoResponse.Data>?) {
     val adapter = recyclerView.adapter as CryptoAdapter
@@ -48,4 +78,6 @@ fun bindImage(imageView: ImageView, photoUri: String?) {
         imageView.visibility = View.GONE
     }
 }
+
+
 
