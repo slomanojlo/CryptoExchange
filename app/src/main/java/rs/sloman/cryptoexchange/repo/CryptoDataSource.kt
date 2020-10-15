@@ -1,9 +1,11 @@
 package rs.sloman.cryptoexchange.repo
 
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import io.reactivex.disposables.CompositeDisposable
 import rs.sloman.cryptoexchange.Constants
 import rs.sloman.cryptoexchange.model.CryptoResponse
+import rs.sloman.cryptoexchange.model.Status
 import rs.sloman.cryptoexchange.network.CryptoApi
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,6 +20,8 @@ class CryptoDataSource @Inject constructor(
 ) :
         PageKeyedDataSource<Int, CryptoResponse.Data>() {
 
+    val status: MutableLiveData<Status> = MutableLiveData()
+
     override fun loadInitial(
             params: LoadInitialParams<Int>,
             callback: LoadInitialCallback<Int, CryptoResponse.Data>
@@ -26,9 +30,10 @@ class CryptoDataSource @Inject constructor(
                 cryptoApi.getCryptosRX(Constants.EUR, 0, params.requestedLoadSize)
                         .subscribe({
                             callback.onResult(it.data, null, params.requestedLoadSize + 1)
-
+                            status.postValue(Status.DONE)
                         },
-                                { Timber.d("Error") })
+                                { Timber.d("Error")
+                                    status.postValue(Status.ERROR)})
         )
 
     }
@@ -39,11 +44,19 @@ class CryptoDataSource @Inject constructor(
     ) {
         compositeDisposable.add(
                 cryptoApi.getCryptosRX(Constants.EUR, params.key, params.requestedLoadSize)
-                        .subscribe({
-                            callback.onResult(it.data, params.requestedLoadSize + params.key)
+                        .subscribe(
+                                {
+                                    callback.onResult(
+                                            it.data,
+                                            params.requestedLoadSize + params.key
+                                    )
+                                    status.postValue(Status.DONE)
 
-                        },
-                                { Timber.d("Error") })
+                                },
+                                {
+                                    Timber.d("Error")
+                                    status.postValue(Status.ERROR)
+                                })
         )
     }
 
@@ -52,7 +65,6 @@ class CryptoDataSource @Inject constructor(
             callback: LoadCallback<Int, CryptoResponse.Data>
     ) {
     }
-
 
 
 }
