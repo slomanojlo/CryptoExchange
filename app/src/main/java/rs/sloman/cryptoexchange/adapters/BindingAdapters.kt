@@ -5,6 +5,7 @@ import android.graphics.ColorMatrixColorFilter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import rs.sloman.cryptoexchange.Constants
 import rs.sloman.cryptoexchange.R
 import rs.sloman.cryptoexchange.model.CryptoResponse
+import rs.sloman.cryptoexchange.model.Status
 
 
 @BindingAdapter("bindTextView")
@@ -22,32 +24,32 @@ fun bindTextView(textView: TextView, string: String?) {
 
 @BindingAdapter("bindMedian")
 fun bindMedian(textView: TextView, double: Double) {
-    textView.text = if(double != 0.0) "Median: $double" else ""
+    textView.text = if(double != 0.0) "Median: € $double" else ""
 }
 
 @BindingAdapter("bindOpenDay")
 fun bindOpenDay(textView: TextView, double: Double) {
-    textView.text = if(double != 0.0) "Open day: $double" else ""
+    textView.text = if(double != 0.0) "Open day: € $double" else ""
 }
 
 @BindingAdapter("bindHighDay")
 fun bindHighDay(textView: TextView, double: Double) {
-    textView.text = if(double != 0.0) "High Day: $double" else ""
+    textView.text = if(double != 0.0) "High Day: € $double" else ""
 }
 
 @BindingAdapter("bindLowDay")
 fun bindLowDay(textView: TextView, double: Double) {
-    textView.text = if(double != 0.0) "Low day: $double" else ""
+    textView.text = if(double != 0.0) "Low day: € $double" else ""
 }
 
 @BindingAdapter("bindMktCap")
 fun bindMktCap(textView: TextView, double: Double) {
-    textView.text = if(double != 0.0) "Market cap: $double" else ""
+    textView.text = if(double != 0.0) "Market cap: € $double" else ""
 }
 
 @BindingAdapter("bindPercent")
 fun bindPercent(textView: TextView, double: Double) {
-    textView.text = if(double != 0.0) "Change in %: $double%" else ""
+    textView.text = if(double != 0.0) "Change in 24h: $double%" else ""
 }
 
 @BindingAdapter("bindListData")
@@ -77,6 +79,11 @@ fun bindImage(imageView: ImageView, photoUri: String?) {
     } else {
         imageView.visibility = View.GONE
     }
+}
+
+@BindingAdapter("bindError")
+fun bindError(iw: ImageView, status: Status?) {
+    iw.visibility = if(status == Status.ERROR) View.VISIBLE else View.GONE
 }
 
 
