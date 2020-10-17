@@ -2,6 +2,7 @@ package rs.sloman.cryptoexchange.viewmodels
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
@@ -16,8 +17,9 @@ import rs.sloman.cryptoexchange.repo.CryptoDataSourceFactory
 class CryptoViewModel @ViewModelInject constructor(private val cryptoDataSourceFactory: CryptoDataSourceFactory) :
         ViewModel() {
 
-    val cryptos: LiveData<PagedList<CryptoResponse.Data>>
+    var cryptos: LiveData<PagedList<CryptoResponse.Data>> = MutableLiveData()
     private val config: PagedList.Config = AppModule.provideConfig()
+
 
     init {
         cryptos = LivePagedListBuilder(cryptoDataSourceFactory, config).build()
@@ -27,5 +29,9 @@ class CryptoViewModel @ViewModelInject constructor(private val cryptoDataSourceF
             cryptoDataSourceFactory.cryptoDataSourceLiveData,
             CryptoDataSource::status
     )
+
+    fun retry() {
+        cryptoDataSourceFactory.cryptoDataSourceLiveData.value?.retry()
+    }
 
 }

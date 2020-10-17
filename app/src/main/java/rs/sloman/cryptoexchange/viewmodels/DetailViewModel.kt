@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit
 
 class DetailViewModel @ViewModelInject constructor(private val repo: Repo) : ViewModel() {
 
-
     val crypto: MutableLiveData<PairResponse> = MutableLiveData()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     val status: MutableLiveData<Status> = MutableLiveData()
@@ -29,7 +28,10 @@ class DetailViewModel @ViewModelInject constructor(private val repo: Repo) : Vie
     fun loadData(fromSymbol: String) {
         compositeDisposable.add(Observable
                 .interval(INITIAL_DELAY, PERIOD_DELAY, TimeUnit.SECONDS)
-                .flatMap { repo.getCryptoPair(fromSymbol, Constants.EUR) }
+                .flatMap {
+                    status.postValue(Status.LOADING)
+                    repo.getCryptoPair(fromSymbol, Constants.EUR)
+                }
                 .retryWhen {
                     it.map { throwable ->
                         status.postValue(Status.ERROR)
@@ -42,7 +44,6 @@ class DetailViewModel @ViewModelInject constructor(private val repo: Repo) : Vie
                     }.debounce(DEBOUNCE_DELAY, TimeUnit.SECONDS)
                 }
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { status.value = Status.LOADING }
                 .doOnDispose { Timber.d("Disposed!") }
                 .subscribe(
                         { d ->

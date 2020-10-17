@@ -5,6 +5,7 @@ import android.graphics.ColorMatrixColorFilter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
@@ -84,6 +85,11 @@ fun bindImage(imageView: ImageView, photoUri: String?) {
 @BindingAdapter("bindError")
 fun bindError(iw: ImageView, status: Status?) {
     iw.visibility = if(status == Status.ERROR) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("bindErrorConstraintLayout")
+fun bindErrorConstraintLayout(cl: ConstraintLayout, status: Status?) {
+    cl.visibility = if(status == Status.ERROR) View.VISIBLE else View.GONE
 }
 
 @BindingAdapter("bindTextView", "bindMessage")

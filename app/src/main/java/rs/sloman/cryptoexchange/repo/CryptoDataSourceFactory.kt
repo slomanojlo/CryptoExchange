@@ -9,8 +9,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CryptoDataSourceFactory @Inject constructor(
-        private val compositeDisposable: CompositeDisposable,
+class  CryptoDataSourceFactory @Inject constructor(
+        val compositeDisposable: CompositeDisposable,
         private val cryptoApi: CryptoApi
 ) : DataSource.Factory<Int, CryptoResponse.Data>() {
 

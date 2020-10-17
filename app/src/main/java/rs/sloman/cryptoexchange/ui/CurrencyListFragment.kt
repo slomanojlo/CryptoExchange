@@ -50,6 +50,10 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
             })
         }
 
+        binding.iwError.setOnClickListener{
+            viewModel.retry()
+        }
+
         return binding.root
     }
 
