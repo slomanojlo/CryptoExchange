@@ -5,7 +5,6 @@ import android.graphics.ColorMatrixColorFilter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
@@ -64,17 +63,18 @@ fun bindImage(imageView: ImageView, photoUri: String?) {
     if (photoUri == null) return
 
     if (photoUri.isNotEmpty()) {
+        imageView.visibility = View.VISIBLE
         Glide.with(imageView)
                 .load(Constants.IMAGES_FOLDER + photoUri)
                 .circleCrop()
                 .placeholder(R.drawable.loading_img)
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .error(R.drawable.ic_round_broken_image)
                 .into(imageView.apply {
                     colorFilter = ColorMatrixColorFilter(ColorMatrix().apply {
                         setSaturation(0F)
                     })
                 })
-        imageView.visibility = View.VISIBLE
 
     } else {
         imageView.visibility = View.GONE

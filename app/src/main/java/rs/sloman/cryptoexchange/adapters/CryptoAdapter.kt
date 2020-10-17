@@ -12,7 +12,6 @@ import rs.sloman.cryptoexchange.model.CryptoResponse
 class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
         PagedListAdapter<CryptoResponse.Data, CryptoAdapter.CryptoViewHolder>(DiffCallback) {
 
-
     class CryptoViewHolder(private var binding: CryptoItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
         fun bind(crypto: CryptoResponse.Data) {

@@ -7,6 +7,9 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import rs.sloman.cryptoexchange.Constants
+import rs.sloman.cryptoexchange.Constants.DEBOUNCE_DELAY
+import rs.sloman.cryptoexchange.Constants.INITIAL_DELAY
+import rs.sloman.cryptoexchange.Constants.PERIOD_DELAY
 import rs.sloman.cryptoexchange.model.PairResponse
 import rs.sloman.cryptoexchange.model.Status
 import rs.sloman.cryptoexchange.repo.Repo
@@ -25,7 +28,7 @@ class DetailViewModel @ViewModelInject constructor(private val repo: Repo) : Vie
 
     fun loadData(fromSymbol: String) {
         compositeDisposable.add(Observable
-                .interval(0, 5, TimeUnit.SECONDS)
+                .interval(INITIAL_DELAY, PERIOD_DELAY, TimeUnit.SECONDS)
                 .flatMap { repo.getCryptoPair(fromSymbol, Constants.EUR) }
                 .retryWhen {
                     it.map { throwable ->
@@ -36,7 +39,7 @@ class DetailViewModel @ViewModelInject constructor(private val repo: Repo) : Vie
                         } else {
                             throw throwable
                         }
-                    }.debounce(2, TimeUnit.SECONDS)
+                    }.debounce(DEBOUNCE_DELAY, TimeUnit.SECONDS)
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { status.value = Status.LOADING }

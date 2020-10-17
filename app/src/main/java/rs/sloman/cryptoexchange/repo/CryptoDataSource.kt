@@ -4,14 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import io.reactivex.disposables.CompositeDisposable
 import rs.sloman.cryptoexchange.Constants
+import rs.sloman.cryptoexchange.Constants.DEBOUNCE_DELAY
 import rs.sloman.cryptoexchange.model.CryptoResponse
 import rs.sloman.cryptoexchange.model.Status
 import rs.sloman.cryptoexchange.network.CryptoApi
 import timber.log.Timber
+import java.net.UnknownHostException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-
-private const val STARTING_PAGE_INDEX = 1
 
 @Singleton
 class CryptoDataSource @Inject constructor(
@@ -28,9 +29,21 @@ class CryptoDataSource @Inject constructor(
     ) {
         compositeDisposable.add(
                 cryptoApi.getCryptosRX(Constants.EUR, 0, params.requestedLoadSize)
+                        .retryWhen {
+                            it.map { throwable ->
+                                status.postValue(Status.ERROR)
+                                if (throwable is UnknownHostException) {
+                                    Timber.d("Error")
+                                    throwable
+                                } else {
+                                    throw throwable
+                                }
+                            }.debounce(DEBOUNCE_DELAY, TimeUnit.SECONDS)
+                        }
                         .subscribe({
                             callback.onResult(it.data, null, params.requestedLoadSize + 1)
                             status.postValue(Status.DONE)
+                            Timber.d(it.message)
                         },
                                 { Timber.d("Error")
                                     status.postValue(Status.ERROR)})
@@ -44,6 +57,17 @@ class CryptoDataSource @Inject constructor(
     ) {
         compositeDisposable.add(
                 cryptoApi.getCryptosRX(Constants.EUR, params.key, params.requestedLoadSize)
+                        .retryWhen {
+                            it.map { throwable ->
+                                status.postValue(Status.ERROR)
+                                if (throwable is UnknownHostException) {
+                                    Timber.d("Error")
+                                    throwable
+                                } else {
+                                    throw throwable
+                                }
+                            }.debounce(DEBOUNCE_DELAY, TimeUnit.SECONDS)
+                        }
                         .subscribe(
                                 {
                                     callback.onResult(
@@ -51,7 +75,7 @@ class CryptoDataSource @Inject constructor(
                                             params.requestedLoadSize + params.key
                                     )
                                     status.postValue(Status.DONE)
-
+                                    Timber.d(it.message)
                                 },
                                 {
                                     Timber.d("Error")

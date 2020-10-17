@@ -16,7 +16,6 @@ class CryptoDataSourceFactory @Inject constructor(
 
     val cryptoDataSourceLiveData = MutableLiveData<CryptoDataSource>()
 
-
     override fun create(): DataSource<Int, CryptoResponse.Data> {
         val cryptoDataSource = CryptoDataSource(cryptoApi, compositeDisposable)
 
