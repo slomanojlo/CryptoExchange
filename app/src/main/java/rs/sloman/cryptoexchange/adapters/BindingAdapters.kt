@@ -86,5 +86,14 @@ fun bindError(iw: ImageView, status: Status?) {
     iw.visibility = if(status == Status.ERROR) View.VISIBLE else View.GONE
 }
 
+@BindingAdapter("bindTextView", "bindMessage")
+fun bindHeader(tw: TextView, fulllName: String?, message: String?) {
+
+    message?.let{
+    tw.text = if (message.startsWith("Total")) fulllName else message
+    }
+
+}
+
 
 

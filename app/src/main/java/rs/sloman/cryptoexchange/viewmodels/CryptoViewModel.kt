@@ -16,7 +16,6 @@ import rs.sloman.cryptoexchange.repo.CryptoDataSourceFactory
 class CryptoViewModel @ViewModelInject constructor(private val cryptoDataSourceFactory: CryptoDataSourceFactory) :
         ViewModel() {
 
-
     val cryptos: LiveData<PagedList<CryptoResponse.Data>>
     private val config: PagedList.Config = AppModule.provideConfig()
 

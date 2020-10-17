@@ -8,5 +8,6 @@ object Constants {
     const val INITIAL_DELAY : Long = 0
     const val PERIOD_DELAY : Long = 5
     const val DEBOUNCE_DELAY : Long = 2
+    const val PAGE_SIZE = 20
 
 }

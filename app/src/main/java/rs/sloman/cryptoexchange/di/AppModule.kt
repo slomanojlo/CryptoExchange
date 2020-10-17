@@ -11,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import rs.sloman.cryptoexchange.Constants
+import rs.sloman.cryptoexchange.Constants.PAGE_SIZE
 import rs.sloman.cryptoexchange.network.CryptoApi
 import javax.inject.Singleton
 
@@ -37,8 +38,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideConfig() : PagedList.Config = PagedList.Config.Builder()
-            .setPageSize(20)
-            .setInitialLoadSizeHint(40)
+            .setPageSize(PAGE_SIZE)
+            .setInitialLoadSizeHint(PAGE_SIZE * 2)
             .setEnablePlaceholders(false)
             .build()
 }

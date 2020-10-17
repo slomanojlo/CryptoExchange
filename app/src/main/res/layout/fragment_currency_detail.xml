@@ -32,6 +32,7 @@
             android:layout_marginBottom="12dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:bindTextView="@{viewModel.crypto.data.coinInfo.fullName}"
+            app:bindMessage="@{viewModel.crypto.message}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Currency" />
