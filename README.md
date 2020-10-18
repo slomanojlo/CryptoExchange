@@ -1,10 +1,7 @@
 ## CryptoExchange
 App for checking crypto currency exchange rates!
 
-<img src="documentation/materials/screenshot_list.jpg" width = 180>
-
-<img src="documentation/materials/screenshot_details.jpg" width = 180>
-
+<img src="materials/screenshot_list.jpg" width = 180>
 
 ## Overview
 This is an Android mobile app project that:
@@ -13,7 +10,7 @@ This is an Android mobile app project that:
 
 
 ## Architecture
-<img src="documentation/materials/crypto-diagram.jpg" width = 480>
+<img src="materials/crypto-diagram.jpg" width = 480>
 
 * **Model** layer is in charge of storing and accessing data
 * **ViewModel** is the core of the app which interacts both with the UI and the Data layer
@@ -26,7 +23,8 @@ This is an Android mobile app project that:
 * **View binding** and **Data binding** implemented for instant reactive UI changes
 * CryptoExchange adapts well to edge cases like and supports **screen rotation**
 
-<img src="documentation/materials/Skocko-land.jpg" height = 180>
+<img src="materials/screenshot_details.jpg" width = 180>
+
 
 ## Potential Enhancements
 * add charts in the DetailFragment screen 
