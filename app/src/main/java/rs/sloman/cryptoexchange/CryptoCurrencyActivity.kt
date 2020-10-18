@@ -6,7 +6,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 /**Activity class in charge of only setting up its UI layout.*/
-class MainActivity : AppCompatActivity() {
+class CryptoCurrencyActivity : AppCompatActivity() {
 
     /** Main entrance point to the app.*/
     override fun onCreate(savedInstanceState: Bundle?) {

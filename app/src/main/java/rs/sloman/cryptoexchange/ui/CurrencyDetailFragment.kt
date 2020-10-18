@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import rs.sloman.cryptoexchange.MainActivity
+import rs.sloman.cryptoexchange.CryptoCurrencyActivity
 import rs.sloman.cryptoexchange.R
 import rs.sloman.cryptoexchange.databinding.FragmentCurrencyDetailBinding
 import rs.sloman.cryptoexchange.viewmodels.DetailViewModel
@@ -44,7 +44,7 @@ class CurrencyDetailFragment : Fragment(R.layout.fragment_currency_detail) {
 
     /**Setting up the title and back icon in Support action bar.*/
     private fun setupActionBar() {
-        (activity as MainActivity?)?.supportActionBar?.apply {
+        (activity as CryptoCurrencyActivity?)?.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
             title = args.crypto.coinInfo.name

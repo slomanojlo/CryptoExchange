@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import rs.sloman.cryptoexchange.MainActivity
+import rs.sloman.cryptoexchange.CryptoCurrencyActivity
 import rs.sloman.cryptoexchange.R
 import rs.sloman.cryptoexchange.adapters.CryptoAdapter
 import rs.sloman.cryptoexchange.databinding.FragmentCurrencyListBinding
@@ -63,7 +63,7 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
     }
 
     private fun setupActionBar() {
-        (activity as MainActivity?)?.supportActionBar?.apply {
+        (activity as CryptoCurrencyActivity?)?.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(false)
             setDisplayShowHomeEnabled(false)
             title = getString(R.string.app_name)
