@@ -6,7 +6,8 @@ import retrofit2.http.Query
 import rs.sloman.cryptoexchange.model.CryptoResponse
 import rs.sloman.cryptoexchange.model.PairResponse
 
-
+/**Typical Retrofit interface in charge of querying the server.
+ * Queries return RxJava Observables handled further down the line.*/
 interface CryptoApi {
 
     @GET("data/top/totalvolfull")
@@ -16,7 +17,6 @@ interface CryptoApi {
             @Query("limit") limit: Int
     ): Observable<CryptoResponse>
 
-    //https://min-api.cryptocompare.com/data/top/exchanges/full?fsym=BTC&tsym=eur
     @GET("data/top/exchanges/full")
     fun getCryptoPair(
             @Query("fsym") fromSymbol: String,

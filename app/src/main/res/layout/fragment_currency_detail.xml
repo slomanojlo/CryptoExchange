@@ -23,7 +23,7 @@
             app:bindImage="@{viewModel.crypto.data.coinInfo.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_launcher_background" />
+            tools:src="@tools:sample/backgrounds/scenic" />
 
         <TextView
             android:id="@+id/twCurrencyName"

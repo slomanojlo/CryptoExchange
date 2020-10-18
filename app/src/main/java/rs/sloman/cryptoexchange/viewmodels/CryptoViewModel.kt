@@ -13,18 +13,19 @@ import rs.sloman.cryptoexchange.model.Status
 import rs.sloman.cryptoexchange.repo.CryptoDataSource
 import rs.sloman.cryptoexchange.repo.CryptoDataSourceFactory
 
-
+/**Core of the app, where all the magic happens!*/
 class CryptoViewModel @ViewModelInject constructor(private val cryptoDataSourceFactory: CryptoDataSourceFactory) :
         ViewModel() {
 
     var cryptos: LiveData<PagedList<CryptoResponse.Data>> = MutableLiveData()
     private val config: PagedList.Config = AppModule.provideConfig()
 
-
+    /**Init block in charge of fetching data and populating the list of cryptocurrencies.*/
     init {
         cryptos = LivePagedListBuilder(cryptoDataSourceFactory, config).build()
     }
 
+    /**LiveData to check the Status of API calls.*/
     fun getStatus(): LiveData<Status> = Transformations.switchMap(
             cryptoDataSourceFactory.cryptoDataSourceLiveData,
             CryptoDataSource::status

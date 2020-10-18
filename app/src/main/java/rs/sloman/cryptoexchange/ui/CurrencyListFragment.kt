@@ -30,7 +30,11 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
         setupActionBar()
 
         val binding = FragmentCurrencyListBinding.inflate(layoutInflater)
+
+        /** Giving the binding access to the OverviewViewModel. */
         binding.viewModel = viewModel
+
+        /** Allows Data Binding to Observe LiveData with the lifecycle of this Fragment. */
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.rwCryptos.apply {
@@ -40,8 +44,9 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
                             DividerItemDecoration.VERTICAL
                     )
             )
-            binding.rwCryptos.setHasFixedSize(true)
-            binding.rwCryptos.adapter = CryptoAdapter(CryptoAdapter.OnClickListenerCrypto {
+            setHasFixedSize(true)
+            /**Setting up the ReviewListAdapter with its [CryptoAdapter.OnClickListenerCrypto]*/
+            adapter = CryptoAdapter(CryptoAdapter.OnClickListenerCrypto {
                 val action =
                         CurrencyListFragmentDirections.actionCurrencyListFragmentToCurrencyDetailFragment(
                                 it
@@ -50,7 +55,7 @@ class CurrencyListFragment : Fragment(R.layout.fragment_currency_list) {
             })
         }
 
-        binding.iwError.setOnClickListener{
+        binding.iwError.setOnClickListener {
             viewModel.retry()
         }
 

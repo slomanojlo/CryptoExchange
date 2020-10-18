@@ -14,10 +14,9 @@ import rs.sloman.cryptoexchange.model.PairResponse
 import rs.sloman.cryptoexchange.model.Status
 import rs.sloman.cryptoexchange.repo.Repo
 import timber.log.Timber
-import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 
-
+/**Simple ViewModel in charge of handling the selected CryptoCurrency with Observables.*/
 class DetailViewModel @ViewModelInject constructor(private val repo: Repo) : ViewModel() {
 
     val crypto: MutableLiveData<PairResponse> = MutableLiveData()
@@ -35,12 +34,8 @@ class DetailViewModel @ViewModelInject constructor(private val repo: Repo) : Vie
                 .retryWhen {
                     it.map { throwable ->
                         status.postValue(Status.ERROR)
-                        if (throwable is UnknownHostException) {
-                            Timber.d("Error")
-                            throwable
-                        } else {
-                            throw throwable
-                        }
+                        Timber.d("Error")
+                        throwable
                     }.debounce(DEBOUNCE_DELAY, TimeUnit.SECONDS)
                 }
                 .observeOn(AndroidSchedulers.mainThread())

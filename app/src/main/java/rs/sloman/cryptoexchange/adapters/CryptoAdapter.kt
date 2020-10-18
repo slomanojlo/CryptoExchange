@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import rs.sloman.cryptoexchange.databinding.CryptoItemBinding
 import rs.sloman.cryptoexchange.model.CryptoResponse
 
-
+/**RecyclerView adapter for populating the list cryptocurrencies.*/
 class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
         PagedListAdapter<CryptoResponse.Data, CryptoAdapter.CryptoViewHolder>(DiffCallback) {
 
+    /**CryptoViewHolder in charge of binding and displaying cryptocurrencies.*/
     class CryptoViewHolder(private var binding: CryptoItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
         fun bind(crypto: CryptoResponse.Data) {
@@ -36,8 +37,8 @@ class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
         }
     }
 
-
     companion object {
+        /**DiffUtil in charge of efficiently handling modifications in the list.*/
         private val DiffCallback = object : DiffUtil.ItemCallback<CryptoResponse.Data>() {
 
             override fun areItemsTheSame(
@@ -53,7 +54,9 @@ class CryptoAdapter(private val onClickListener: OnClickListenerCrypto) :
 
     }
 
-    class OnClickListenerCrypto(val clickListnener: (crypto: CryptoResponse.Data) -> Unit) {
-        fun onClick(crypto: CryptoResponse.Data) = clickListnener(crypto)
+    /**Custom listener that handles clicks on [RecyclerView] items.  Passes the [CryptoResponse.Data]
+     * associated with the current item to the [onClick] function.*/
+    class OnClickListenerCrypto(val clickListener: (crypto: CryptoResponse.Data) -> Unit) {
+        fun onClick(crypto: CryptoResponse.Data) = clickListener(crypto)
     }
 }

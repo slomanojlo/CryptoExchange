@@ -16,15 +16,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+/**Class in charge of smoothly fetching data from the server. Returns a [PageKeyedDataSource]*/
 class CryptoDataSource @Inject constructor(
         private val cryptoApi: CryptoApi,
-        val compositeDisposable: CompositeDisposable
-) :
-        PageKeyedDataSource<Int, CryptoResponse.Data>() {
+        private val compositeDisposable: CompositeDisposable
+) : PageKeyedDataSource<Int, CryptoResponse.Data>() {
 
     val status: MutableLiveData<Status> = MutableLiveData()
     private var retryCompletable: Completable? = null
 
+    /**Callback that loads the initial chunk of data.*/
     override fun loadInitial(
             params: LoadInitialParams<Int>,
             callback: LoadInitialCallback<Int, CryptoResponse.Data>
@@ -45,6 +46,8 @@ class CryptoDataSource @Inject constructor(
 
     }
 
+    /**Callback that loads every next chunk of data when the user reaches a certain position
+     * in the RecyclerView.*/
     override fun loadAfter(
             params: LoadParams<Int>,
             callback: LoadCallback<Int, CryptoResponse.Data>
@@ -68,6 +71,8 @@ class CryptoDataSource @Inject constructor(
         )
     }
 
+    /**Load before should have been used if the loading started somewhere from the middle of the list.
+     *In our case we're loading from the begining, therefore it's empty. */
     override fun loadBefore(
             params: LoadParams<Int>,
             callback: LoadCallback<Int, CryptoResponse.Data>
@@ -77,6 +82,7 @@ class CryptoDataSource @Inject constructor(
     private fun setRetry(action: Action?) {
         retryCompletable = if (action == null) null else Completable.fromAction(action)
     }
+
 
     fun retry() {
         if (retryCompletable != null) {

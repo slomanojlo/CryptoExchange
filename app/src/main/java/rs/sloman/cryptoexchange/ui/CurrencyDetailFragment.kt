@@ -16,7 +16,9 @@ import rs.sloman.cryptoexchange.viewmodels.DetailViewModel
 @AndroidEntryPoint
 class CurrencyDetailFragment : Fragment(R.layout.fragment_currency_detail) {
 
+    /**Instantiating or retrieving the DetailViewModel.*/
     private val viewModel: DetailViewModel by viewModels()
+    /**Type-safe arguments provided by SafeArgs and navigation.*/
     private val args by navArgs<CurrencyDetailFragmentArgs>()
 
     override fun onCreateView(
@@ -27,14 +29,20 @@ class CurrencyDetailFragment : Fragment(R.layout.fragment_currency_detail) {
 
         setupActionBar()
 
+
         val binding = FragmentCurrencyDetailBinding.inflate(layoutInflater)
+
+        /** Allows Data Binding to Observe LiveData with the lifecycle of this Fragment */
         binding.lifecycleOwner = this
+
+        /** Giving the binding access to the OverviewViewModel */
         binding.viewModel = viewModel
 
         return binding.root
 
     }
 
+    /**Setting up the title and back icon in Support action bar.*/
     private fun setupActionBar() {
         (activity as MainActivity?)?.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -45,7 +53,7 @@ class CurrencyDetailFragment : Fragment(R.layout.fragment_currency_detail) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadData(args.crypto.coinInfo.name.toLowerCase())
+        viewModel.loadData(args.crypto.coinInfo.name)
     }
 
     override fun onPause() {

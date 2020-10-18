@@ -17,6 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
+/**Application level Dagger-Hilt Module in charge of providing in-time needed objects.*/
 object AppModule {
 
     /**Function that returns a singleton CryptoApi*/

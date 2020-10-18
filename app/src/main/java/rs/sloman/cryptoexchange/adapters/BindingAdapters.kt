@@ -17,6 +17,8 @@ import rs.sloman.cryptoexchange.model.CryptoResponse
 import rs.sloman.cryptoexchange.model.Status
 
 
+/** List of BindingAdapters used to bind and observe data with views. */
+
 @BindingAdapter("bindTextView")
 fun bindTextView(textView: TextView, string: String?) {
     textView.text = string
@@ -68,7 +70,7 @@ fun bindImage(imageView: ImageView, photoUri: String?) {
         Glide.with(imageView)
                 .load(Constants.IMAGES_FOLDER + photoUri)
                 .circleCrop()
-                .placeholder(R.drawable.loading_img)
+                .placeholder(R.drawable.ic_loading_img)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .error(R.drawable.ic_round_broken_image)
                 .into(imageView.apply {
@@ -93,10 +95,10 @@ fun bindErrorConstraintLayout(cl: ConstraintLayout, status: Status?) {
 }
 
 @BindingAdapter("bindTextView", "bindMessage")
-fun bindHeader(tw: TextView, fulllName: String?, message: String?) {
+fun bindHeader(tw: TextView, fullName: String?, message: String?) {
 
     message?.let{
-    tw.text = if (message.startsWith("Total")) fulllName else message
+    tw.text = if (message.startsWith("Total")) fullName else message
     }
 
 }
