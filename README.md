@@ -10,7 +10,7 @@ This is an Android mobile app project that:
 
 
 ## Architecture
-<img src="materials/crypto-diagram.jpg" width = 480>
+<img src="materials/crypto-diagram.JPG" width = 480>
 
 * **Model** layer is in charge of storing and accessing data
 * **ViewModel** is the core of the app which interacts both with the UI and the Data layer
