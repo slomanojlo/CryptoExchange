@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_currency_list">
         <action
             android:id="@+id/action_currencyListFragment_to_currencyDetailFragment"
-            app:destination="@id/currencyDetailFragment" />
+            app:destination="@id/currencyDetailFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
 
     </fragment>
     <fragment
@@ -22,7 +26,12 @@
         tools:layout="@layout/fragment_currency_detail">
         <argument
             android:name="crypto"
-            app:argType="rs.sloman.cryptoexchange.model.CryptoResponse$Data" />
+            app:argType="rs.sloman.cryptoexchange.model.CryptoResponse$Data"
+
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"/>
     </fragment>
 
 </navigation>
